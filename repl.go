@@ -10,10 +10,10 @@ import (
 type clicommand struct {
 	name	string
 	description string
-	callback func() error 
+	callback func(*config) error 
 }
 
-func startrepl() {
+func startrepl(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Printf("> ")
@@ -27,15 +27,14 @@ func startrepl() {
 		commandName := words[0]
 		command, ok := getCommands()[commandName]
 
-		if ok {
-			err := command.callback()
-			if err != nil {
-				fmt.Println(err)
-			}
-			continue
-		} else {
+		if !ok {
 			fmt.Println("Unknown command")
 			continue
+			
+		} 
+		err := command.callback(cfg)
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
 }
@@ -46,6 +45,16 @@ func getCommands() map[string]clicommand {
 			name: "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		"map": {
+			name: "map",
+			description: "Lists the location areas",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name: "mapb",
+			description: "Lists the location areas backwards",
+			callback:    commandMapb,
 		},
 		"exit": {
 			name:        "exit",
