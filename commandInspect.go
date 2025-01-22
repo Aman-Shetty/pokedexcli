@@ -20,6 +20,7 @@ func commandInspect(cfg *config, args ...string) error {
 	fmt.Printf("Name: %s\n", pokemon.Name)
 	fmt.Printf("Height: %d\n", pokemon.Height)
 	fmt.Printf("Weight: %d\n", pokemon.Weight)
+	fmt.Printf("BaseExperience: %d\n", pokemon.BaseExperience)
 	fmt.Println("Stats:")
 	for _, stats := range pokemon.Stats {
 		fmt.Printf("\t-%s: %v\n", stats.Stat.Name, stats.BaseStat)
@@ -28,5 +29,9 @@ func commandInspect(cfg *config, args ...string) error {
 	for _, types := range pokemon.Types {
 		fmt.Printf("\t-%s\n", types.Type.Name)
 	}
+	// fmt.Println("Moves:")
+	// for _, move := range pokemon.Moves {
+	// 	fmt.Printf("\t-%s\n", move.Move.Name)
+	// }
 	return nil
 }
